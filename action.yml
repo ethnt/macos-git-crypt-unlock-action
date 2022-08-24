@@ -1,0 +1,14 @@
+name: 'git-crypt unlock'
+description: 'git-crypt unlock using Homebrew'
+inputs:
+  git-crypt-key:
+    description: 'Your base64-encoded git-crypt key'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: |
+      brew install git-crypt
+      echo "${{ inputs.git-crypt-key }}" | base64  -d > /tmp/git-crypt-key
+      git-crypt unlock /tmp/git-crypt-key
+      rm /tmp/git-crypt-key
